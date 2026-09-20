@@ -1,0 +1,14 @@
+pipeline {
+    agent anystages{
+        stage("Build"){
+            steps{
+                sh "mvn clean package"
+            }
+        }
+        stage (Deploy"){
+            steps{
+                sh "'cp target/myapp.war /opt/tomcat/webapps/'
+            }
+        }
+    }
+}

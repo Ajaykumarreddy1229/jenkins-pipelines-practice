@@ -1,0 +1,45 @@
+pipline {
+    agent any
+    tools{
+        maven "Maven3"
+        jdk "JDK"
+    }
+    stages{
+        staep("check out code")
+        steps{
+            git branch'main,url:'https://github.com/Ajaykumarreddy1229/java-project-maven-new.git'
+        }
+    }
+    stage("Build"){
+        steps{
+            sh "mvn clean package"
+        }
+    }
+    stage("Test"){
+        steps{
+            sh "mvn test"
+        }
+    }
+     stage("Code Qulaity Check'){
+        steps{
+            sh "mvn sonar:sonar"
+        }
+     }
+      stage("Deploy to tomcat"){
+        steps{
+            sh """
+            cp traget/myapp.war/opt/tomcat/webapps/
+            """
+        }
+      }
+}
+
+post {
+        success {
+            echo '✅ Pipeline completed successfully!'
+        }
+        failure {
+            echo '❌ Pipeline failed. Check logs for details.'
+        }
+    }
+}

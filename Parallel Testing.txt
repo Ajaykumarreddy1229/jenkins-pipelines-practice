@@ -1,0 +1,24 @@
+pipeline{
+    agent any
+    stages{
+        stage{
+            steps{
+                sh "mvn clean package"
+            }
+        }
+        stage(parallel test"){
+            parallel{
+                stage("Unit Test"){
+                    steps{
+                        sh "mvn test -Dgroups =unit"
+                    }
+                }
+                stage("Intergration tset"){
+                    steps{
+                        sh "mvn tset -Dgroups=Intergration
+                    }
+                }
+            }
+        }
+    }
+}
